@@ -1,5 +1,6 @@
 #include "imgui_wrapper.hpp"
 #include "image_buffer.hpp"
+#include "raytrace/raytrace.hpp"
 
 UI *UI::instance_ = nullptr;
 
@@ -40,11 +41,12 @@ void UI::RenderUI() {
   ImGui::BeginChild(kRenderFrame, ImVec2(mainCanvasWidth, 0), true);
   ImGui::Text("Image:");
   // Calculate the size for the main canvas based on the window's content region
-  ImVec2 canvasSize = ImGui::GetContentRegionAvail();
+  ImVec2 imageSize(static_cast<float>(ImageData::getInstance().getWidth()),
+                   static_cast<float>(ImageData::getInstance().getHeight()));
 
   // Display the texture on the main canvas
   ImGui::Image((void *)(intptr_t)ImageData::getInstance().LoadTexture(),
-               canvasSize);
+               imageSize);
 
   // image here
   ImGui::EndChild();
@@ -62,9 +64,11 @@ void UI::RenderUI() {
   }
 
   if (ImGui::Button("Render")) {
+    Timer t;
+    Raytrace();
+    logger_.LogDebug("Generation:" + t.Measure());
     ImageData::getInstance().Update();
   }
-  
 
   ImGui::Dummy(ImVec2(0.0f, 100));
 
@@ -113,8 +117,6 @@ bool UI::Render() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-
-
     RenderUI(); // Render our GUI
 
     // Rendering
@@ -150,10 +152,10 @@ bool UI::Init() {
   ImGui_ImplGlfw_InitForOpenGL(window_, true);
   ImGui_ImplOpenGL3_Init(kGlslVersion);
 
-  params_.width = 100;
-  params_.height = 100;
-  last_params_.width = 100;
-  last_params_.height = 100;
+  params_.width = 400;
+  params_.height = 400;
+  last_params_.width = 400;
+  last_params_.height = 400;
   ImageData::getInstance().Initialize(last_params_.height, last_params_.width);
 
   return true;

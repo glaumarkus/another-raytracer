@@ -1,10 +1,7 @@
 #pragma once
 
-#include <chrono>
-#include <iomanip>
-#include <iostream>
+#include "timer.hpp"
 #include <string>
-#include <sstream>
 
 enum class LogLevel {
   Verbose = 0,
@@ -25,8 +22,7 @@ public:
 private:
   std::string GetDuration() const;
   void Log(const std::string &msg);
-  std::chrono::time_point<std::chrono::high_resolution_clock> start_time_{
-      std::chrono::high_resolution_clock::now()};
+  Timer timer_;
   LogLevel ll_{LogLevel::Verbose};
   std::string log_;
 };

@@ -31,7 +31,7 @@ public:
     return result;
   }
 
-  Matrix<size> &operator*=(const Matrix<size> &other) const {
+  Matrix<size> &operator*=(const Matrix<size> &other)  {
     mat_ *= other.mat_;
     return *this;
   }
