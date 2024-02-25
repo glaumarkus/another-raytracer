@@ -1,4 +1,5 @@
 #include "color.hpp"
+#include <algorithm>
 
 Color::Color(double v) : vec(v, v, v, 1.0) {}
 Color::Color(double r, double g, double b) : vec(r, g, b, 1.0) {}
@@ -36,7 +37,7 @@ Color &Color::operator*=(const Color &other) {
 }
 
 Color &Color::operator*=(const double other) {
-  vec *=other;
+  vec *= other;
   return *this;
 }
 
@@ -47,11 +48,9 @@ Color operator-(const Color &lhs, const Color &rhs) {
   return Color(Eigen::Vector4d(lhs.Eigen() - rhs.Eigen()));
 }
 
-
 Color operator*(const Color &lhs, const double rhs) {
-    return Color(lhs.Eigen() * rhs);
+  return Color(lhs.Eigen() * rhs);
 }
-
 
 Color operator*(const Color &lhs, const Color &rhs) {
 
@@ -68,3 +67,10 @@ ColorStruct Color::GetRenderColor() {
   c.a = static_cast<unsigned char>(vec.w() * 255);
   return c;
 }
+
+unsigned char Color::ru() const { return 255 * ClampColorValue(vec.x()); }
+unsigned char Color::gu() const { return 255 * ClampColorValue(vec.y()); }
+unsigned char Color::bu() const { return 255 * ClampColorValue(vec.z()); }
+unsigned char Color::au() const { return 255 * ClampColorValue(vec.w()); }
+
+double ClampColorValue(double in) { return std::clamp(in, 0.0, 1.0); }

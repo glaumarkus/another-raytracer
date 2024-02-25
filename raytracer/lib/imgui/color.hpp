@@ -31,6 +31,11 @@ public:
   virtual const double &b() const;
   virtual const double &a() const;
 
+  virtual unsigned char ru() const;
+  virtual unsigned char gu() const;
+  virtual unsigned char bu() const;
+  virtual unsigned char au() const;
+
   virtual ~Color() = default;
 
 protected:
@@ -40,4 +45,11 @@ protected:
 Color operator+(const Color &lhs, const Color &rhs);
 Color operator-(const Color &lhs, const Color &rhs);
 Color operator*(const Color &lhs, const double rhs);
-Color operator*(const Color &lhs, const Color& rhs);
+Color operator*(const Color &lhs, const Color &rhs);
+
+namespace Colors {
+static Color black(0, 0, 0);
+static Color white(1, 1, 1);
+} // namespace Colors
+
+double ClampColorValue(double in);

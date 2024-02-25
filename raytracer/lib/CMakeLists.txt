@@ -5,6 +5,7 @@ add_library(raytracer_lib STATIC
     math/ray.cpp
     math/object.cpp
     math/intersections.cpp
+    math/material.cpp
     )
 target_link_libraries(raytracer_lib PRIVATE eigen)
 target_include_directories(raytracer_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -41,6 +42,29 @@ target_link_libraries(raytrace05 PUBLIC
     raytracer_lib
 )
 
+# raytrace lighting lib
+add_library(lighting STATIC 
+    raytrace/light.cpp
+    raytrace/lighting_model.cpp
+)
+
+target_include_directories(lighting PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(lighting PUBLIC 
+    image_buffer
+    raytracer_lib
+)
+
+# raytrace chapter 05
+add_library(raytrace06 STATIC 
+    raytrace/raytrace_chapter06.cpp
+)
+
+target_include_directories(raytrace06 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(raytrace06 PUBLIC 
+    image_buffer
+    raytracer_lib
+    lighting
+)
 
 # imgui
 add_library(ui STATIC 
@@ -51,5 +75,5 @@ target_include_directories(ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(ui PUBLIC 
     image_buffer
     utility
-    raytrace05
+    raytrace06
 )

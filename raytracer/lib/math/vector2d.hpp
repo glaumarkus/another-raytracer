@@ -14,7 +14,9 @@ public:
   Tuple &operator-=(const Tuple &other);
   Tuple &operator*=(const double v);
   Tuple &operator/=(const double v);
-  
+
+  bool operator==(const Tuple &other);
+  bool operator!=(const Tuple &other);
 
   virtual double &x();
   virtual double &y();
@@ -30,9 +32,9 @@ public:
   virtual double Magnitude();
   virtual void Normalize();
   Tuple Normalized();
-  virtual double Dot(const Tuple& other);
-  virtual Tuple Cross(const Tuple& other);
-
+  virtual double Dot(const Tuple &other);
+  virtual Tuple Cross(const Tuple &other);
+  Tuple Reflect(const Tuple& other); 
 
   virtual ~Tuple() = default;
 
@@ -44,6 +46,8 @@ Tuple operator+(const Tuple &lhs, const Tuple &rhs);
 Tuple operator-(const Tuple &lhs, const Tuple &rhs);
 Tuple operator*(const Tuple &lhs, const double rhs);
 Tuple operator/(const Tuple &lhs, const double rhs);
+bool operator==(const Tuple &lhs, const Tuple &rhs);
+bool operator!=(const Tuple &lhs, const Tuple &rhs);
 
 double Dot(const Tuple &lhs, const Tuple &rhs);
 // Tuple Cross(const Tuple &lhs, const Tuple &rhs);

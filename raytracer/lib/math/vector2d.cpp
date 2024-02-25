@@ -80,3 +80,17 @@ Point operator+(const Point &point, const Vector &vector) {
 Point operator-(const Point &point, const Vector &vector) {
   return Point(Eigen::Vector4d(point.Eigen() - vector.Eigen()));
 }
+
+bool operator==(const Tuple &lhs, const Tuple &rhs) {
+  return lhs.Eigen() == rhs.Eigen();
+}
+bool operator!=(const Tuple &lhs, const Tuple &rhs) {
+  return lhs.Eigen() != rhs.Eigen();
+}
+
+bool Tuple::operator==(const Tuple &other) { return Eigen() == other.Eigen(); };
+bool Tuple::operator!=(const Tuple &other) { return *this == other; }
+
+Tuple Tuple::Reflect(const Tuple &other) {
+  return Tuple(vec - other.Eigen() * 2 * vec.dot(other.Eigen()));
+}

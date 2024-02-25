@@ -1,6 +1,5 @@
 #include "object.hpp"
 
-Sphere::Sphere(Matrix<4> transformation) : mat_(transformation) {}
 bool Sphere::IsIntersectable() const { return true; }
 Intersections Sphere::GetIntersections(Ray r) const {
   return SphereIntersection(*this, r);
@@ -33,3 +32,21 @@ Intersections SphereIntersection(const Sphere &s, Ray r) {
   }
   return i;
 }
+
+Vector SphereNormal(const Sphere &s, const Point &p) {
+  // apply transformation to point p
+  auto obj_point = Point(s.GetTransformation().Eigen().inverse() * p.Eigen());
+  auto world_normal =
+      s.GetTransformation().Eigen().inverse().transpose().eval() *
+      Vector(obj_point.Eigen()).Eigen();
+  return Vector(world_normal.x(), world_normal.y(), world_normal.z())
+      .Normalized();
+}
+
+void Sphere::SetMaterial(const Material m) { material_ = m; }
+Material Sphere::GetMaterial() const { return material_; }
+
+Sphere::Sphere(Matrix<4> transformation) : mat_(transformation) {}
+Sphere::Sphere(Material mat) : material_(mat) {}
+Sphere::Sphere(Matrix<4> transformation, Material mat)
+    : mat_(transformation), material_(mat) {}
