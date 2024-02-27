@@ -5,7 +5,7 @@ enable_testing()
 add_executable(misc misc.cpp) 
 
 # Link the test executable with GoogleTest and your libraries
-target_link_libraries(misc gtest gtest_main utility)
+target_link_libraries(misc gtest gtest_main utility world_loader)
 
 # Register the executable as a test
 add_test(NAME misc COMMAND misc)
@@ -64,3 +64,13 @@ target_link_libraries(chapter06 gtest gtest_main raytracer_lib image_buffer ligh
 
 # Register the executable as a test
 add_test(NAME chapter06 COMMAND chapter06)
+
+# Define test executable
+add_executable(chapter07 chapter07.cpp) 
+
+# Link the test executable with GoogleTest and your libraries
+target_link_libraries(chapter07 gtest gtest_main raytracer_lib image_buffer lighting utility world_loader)
+
+# Register the executable as a test
+add_test(NAME chapter07 COMMAND chapter07)
+

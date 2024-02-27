@@ -1,13 +1,12 @@
 #include "lighting_model.hpp"
 #include "imgui/color.hpp"
 
-Color PhongReflectionModel::GetLightingColor(const Material &material,
-                                             std::vector<Light *> lights,
-                                             const Point &point,
-                                             const Vector &eye_vector,
-                                             const Vector &normal_vector) {
+Color PhongReflectionModel::GetLightingColor(
+    const Material &material, const std::vector<std::shared_ptr<Light>>& lights,
+    const Point &point, const Vector &eye_vector,
+    const Vector &normal_vector) const {
   Color result(0, 0, 0);
-  for (const auto *light : lights) {
+  for (const auto light : lights) {
     Color diffuse_color = Colors::black;
     Color specular_color = Colors::black;
     auto effective_color = material.GetColor() * light->GetIntensity();

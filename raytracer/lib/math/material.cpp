@@ -9,3 +9,9 @@ double Material::Ambient() const { return ambient_; }
 double Material::Diffuse() const { return diffuse_; }
 double Material::Specular() const { return specular_; }
 double Material::Shininess() const { return shininess_; }
+
+void Material::SetColor(Color color) { color_ = color; }
+void Material::SetAmbient(double ambient) { ambient_ = ambient; }
+void Material::SetDiffuse(double diffuse) { diffuse_ = diffuse; }
+void Material::SetSpecular(double specular) { specular_ = specular; }
+void Material::SetShininess(double shininess) { shininess_ = shininess; }

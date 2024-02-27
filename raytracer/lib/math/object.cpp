@@ -50,3 +50,6 @@ Sphere::Sphere(Matrix<4> transformation) : mat_(transformation) {}
 Sphere::Sphere(Material mat) : material_(mat) {}
 Sphere::Sphere(Matrix<4> transformation, Material mat)
     : mat_(transformation), material_(mat) {}
+Vector Sphere::GetNormalAtPoint(Point p) const {
+  return SphereNormal(*this, p);
+}

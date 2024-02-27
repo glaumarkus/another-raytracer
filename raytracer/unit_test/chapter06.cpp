@@ -65,9 +65,9 @@ TEST(chapter06, eye_between_light_and_surface) {
   Vector normal(0, 0, -1);
   Material m;
   PhongReflectionModel model;
-  PointLight light(Point(0, 0, -10), Color(1, 1, 1));
-  auto lights = std::vector<Light *>();
-  lights.push_back(&light);
+  auto light = std::make_shared<PointLight>(Point(0, 0, -10), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
   auto cc = model.GetLightingColor(m, lights, position, eye, normal);
   EXPECT_TRUE(equalc(model.GetLightingColor(m, lights, position, eye, normal),
                      Color(1.9, 1.9, 1.9)));
@@ -78,10 +78,10 @@ TEST(chapter06, eye_45_degrees) {
   Vector eye(0, std::sqrt(2) / 2, -std::sqrt(2) / 2);
   Vector normal(0, 0, -1);
   Material m;
-  PointLight light(Point(0, 0, -10), Color(1, 1, 1));
+  auto light = std::make_shared<PointLight>(Point(0, 0, -10), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
   PhongReflectionModel model;
-  auto lights = std::vector<Light *>();
-  lights.push_back(&light);
   EXPECT_TRUE(equalc(model.GetLightingColor(m, lights, position, eye, normal),
                      Color(1, 1, 1)));
 }
@@ -91,10 +91,10 @@ TEST(chapter06, eye_45_degrees2) {
   Vector eye(0, 0, -1);
   Vector normal(0, 0, -1);
   Material m;
-  PointLight light(Point(0, 10, -10), Color(1, 1, 1));
   PhongReflectionModel model;
-  auto lights = std::vector<Light *>();
-  lights.push_back(&light);
+  auto light = std::make_shared<PointLight>(Point(0, 10, -10), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
   EXPECT_TRUE(equalc(model.GetLightingColor(m, lights, position, eye, normal),
                      Color(0.7364, 0.7364, 0.7364)));
 }
@@ -104,10 +104,10 @@ TEST(chapter06, eye_reflection_vector) {
   Vector eye(0, -std::sqrt(2) / 2, -std::sqrt(2) / 2);
   Vector normal(0, 0, -1);
   Material m;
-  PointLight light(Point(0, 10, -10), Color(1, 1, 1));
   PhongReflectionModel model;
-  auto lights = std::vector<Light *>();
-  lights.push_back(&light);
+  auto light = std::make_shared<PointLight>(Point(0, 10, -10), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
   auto cc = model.GetLightingColor(m, lights, position, eye, normal);
   EXPECT_TRUE(equalc(model.GetLightingColor(m, lights, position, eye, normal),
                      Color(1.6364, 1.6364, 1.6364)));
@@ -118,10 +118,10 @@ TEST(chapter06, eye_behind_surface) {
   Vector eye(0, 0, -1);
   Vector normal(0, 0, -1);
   Material m;
-  PointLight light(Point(0, 0, 10), Color(1, 1, 1));
   PhongReflectionModel model;
-  auto lights = std::vector<Light *>();
-  lights.push_back(&light);
+  auto light = std::make_shared<PointLight>(Point(0, 0, 10), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
   EXPECT_TRUE(equalc(model.GetLightingColor(m, lights, position, eye, normal),
                      Color(0.1, 0.1, 0.1)));
 }

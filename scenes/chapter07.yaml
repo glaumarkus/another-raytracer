@@ -1,0 +1,19 @@
+# lights 
+- add: Pointlight
+  at: [-10, 10, -10]
+  intensity: [1, 1, 1]
+# materials
+- material: white-material
+  value:
+    color: [0.8, 1.0 ,0.6 ]
+    diffuse: 0.7
+    specular: 0.2
+# transformation mats
+- transform: transformation1
+  value:
+  - [ scale, 0.5, 0.5, 0.5]
+# shapes
+- add: sphere
+  material: white-material
+  transform: transformation1
+- add: sphere

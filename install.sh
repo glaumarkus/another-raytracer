@@ -5,6 +5,7 @@ EIGEN_RELEASE="https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar
 GTEST_RELEASE="https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz"
 SDL_RELEASE="https://github.com/libsdl-org/SDL/releases/download/release-2.30.0/SDL2-2.30.0.tar.gz"
 IMGUI_RELEASE="https://github.com/ocornut/imgui/archive/refs/tags/v1.90.3.tar.gz"
+CPP23_GCC="https://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-13.2.0/gcc-13.2.0.tar.gz"
 
 echo "Starting install"
 
@@ -34,6 +35,10 @@ tar -xvf ${IMGUI_RELEASE##*/}
 rm ${IMGUI_RELEASE##*/}
 
 sudo apt-get install libglfw3 libglfw3-dev -y
+sudo apt-get install libyaml-cpp-dev -y
 
+# ./configure --enable-languages=c,c++ --disable-multilib
+# make -j4
+# sudo make install
 
 cd .. 

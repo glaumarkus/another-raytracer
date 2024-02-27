@@ -15,6 +15,7 @@ public:
   virtual const Matrix<4> &GetTransformation() const = 0;
   virtual void SetMaterial(const Material m) = 0;
   virtual Material GetMaterial() const = 0;
+  virtual Vector GetNormalAtPoint(Point p) const = 0;
 };
 
 class Sphere : public Object {
@@ -29,6 +30,7 @@ public:
   const Matrix<4> &GetTransformation() const override;
   void SetMaterial(const Material m) override;
   Material GetMaterial() const override;
+  Vector GetNormalAtPoint(Point p) const override;
 
 protected:
   Matrix<4> mat_{math_constants::m4_identity};

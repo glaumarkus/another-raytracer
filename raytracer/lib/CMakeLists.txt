@@ -66,6 +66,19 @@ target_link_libraries(raytrace06 PUBLIC
     lighting
 )
 
+# world
+find_package(yaml-cpp REQUIRED)
+add_library(world_loader STATIC
+    utility/world_parser.cpp
+)
+target_include_directories(world_loader PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(world_loader PUBLIC 
+    image_buffer
+    raytracer_lib
+    lighting
+    yaml-cpp
+)
+
 # imgui
 add_library(ui STATIC 
     imgui/imgui_wrapper.cpp
@@ -77,3 +90,4 @@ target_link_libraries(ui PUBLIC
     utility
     raytrace06
 )
+

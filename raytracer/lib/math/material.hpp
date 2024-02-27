@@ -12,6 +12,11 @@ public:
   double Diffuse() const;
   double Specular() const;
   double Shininess() const;
+  void SetColor(Color color);
+  void SetAmbient(double ambient);
+  void SetDiffuse(double diffuse);
+  void SetSpecular(double specular);
+  void SetShininess(double shininess);
 
 protected:
   Color color_{1, 1, 1};

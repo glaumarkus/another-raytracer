@@ -20,9 +20,11 @@ void Raytrace() {
   s.Transform(math_constants::ScaleMatrix(40, 40, 40));
   s.SetMaterial(Material(Color(1, 0.2, 1), 0.1, 0.9, 0.9, 200));
 
-  PointLight l(Point(-100, -100, -100), Color(1, 1, 1));
-  auto lights = std::vector<Light *>();
-  lights.push_back(&l);
+  auto light =
+      std::make_shared<PointLight>(Point(-100, -100, -100), Color(1, 1, 1));
+  auto lights = std::vector<std::shared_ptr<Light>>();
+  lights.push_back(light);
+
   auto wall_z = 10;
   auto wall_size = 7.0;
   auto half = h / 2;
@@ -43,7 +45,8 @@ void Raytrace() {
         auto color = phong.GetLightingColor(hit.obj->GetMaterial(), lights,
                                             point, r.GetDirection(), normal);
 
-        ImageData::getInstance().SetPixel(hh, ww, color.ru(), color.gu(), color.bu(), 255);
+        ImageData::getInstance().SetPixel(hh, ww, color.ru(), color.gu(),
+                                          color.bu(), 255);
       } else {
         ImageData::getInstance().SetPixel(hh, ww, 0, 0, 0, 255);
       }
