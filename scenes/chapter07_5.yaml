@@ -1,17 +1,25 @@
-# lights 
+# camera
+- add: Pointcamera
+  height: 600
+  width: 800
+  fov: 1.5707963267948966
+  from: [0, 0, -5]
+  to: [0, 0, 0]
+  up: [0, 1, 0]
+# lights
 - add: Pointlight
   at: [-10, 10, -10]
   intensity: [1, 1, 1]
 # materials
 - material: white-material
   value:
-    color: [0.8, 1.0 ,0.6 ]
+    color: [0.8, 1.0, 0.6]
     diffuse: 0.7
     specular: 0.2
 # transformation mats
 - transform: transformation1
   value:
-  - [ scale, 0.5, 0.5, 0.5]
+    - [scale, 0.5, 0.5, 0.5]
 # shapes
 - add: sphere
   material: white-material

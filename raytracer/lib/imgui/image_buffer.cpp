@@ -13,6 +13,17 @@ GLuint ImageData::LoadTexture() {
   return textureID;
 }
 
+std::vector<unsigned char> ImageData::GetPixel(int h, int w) const
+{
+  std::vector<unsigned char> pixel;
+  std::lock_guard<std::mutex> lock(mutexp);
+  int index = (w * width + h) * 4;
+  pixel.push_back(pixels[index]);
+  pixel.push_back(pixels[index + 1]);
+  pixel.push_back(pixels[index + 2]);
+  return pixel;
+}
+
 ImageData &ImageData::getInstance() {
   static ImageData instance;
   return instance;

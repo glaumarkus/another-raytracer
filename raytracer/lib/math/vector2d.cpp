@@ -22,7 +22,7 @@ const double &Tuple::z() const { return vec.z(); }
 const double &Tuple::w() const { return vec.w(); }
 const Eigen::Vector4d &Tuple::Eigen() const { return vec; }
 void Tuple::Negate() { vec = math_constants::empty.Eigen() - vec; }
-double Tuple::Dot(const Tuple &other) { return vec.dot(other.vec); }
+double Tuple::Dot(const Tuple &other) const { return vec.dot(other.vec); }
 
 Tuple &Tuple::operator+=(const Tuple &other) {
   vec += other.vec;
@@ -58,17 +58,17 @@ Tuple operator/(const Tuple &lhs, const double rhs) {
   return Tuple(Eigen::Vector4d(lhs.Eigen() / rhs));
 }
 
-double Tuple::Magnitude() { return vec.norm(); }
+double Tuple::Magnitude() const { return vec.norm(); }
 
 void Tuple::Normalize() { vec.normalize(); }
 
-Tuple Tuple::Normalized() { return Tuple(vec.normalized()); }
+Tuple Tuple::Normalized() const { return Tuple(vec.normalized()); }
 
 double Dot(const Tuple &lhs, const Tuple &rhs) {
   return lhs.Eigen().dot(rhs.Eigen());
 }
 
-Tuple Tuple::Cross(const Tuple &other) {
+Tuple Tuple::Cross(const Tuple &other) const {
   Eigen::Vector3d cross = vec.head<3>().cross(other.Eigen().head<3>());
   return Tuple(Eigen::Vector4d(cross.x(), cross.y(), cross.z(), 0.0));
 }
@@ -91,6 +91,6 @@ bool operator!=(const Tuple &lhs, const Tuple &rhs) {
 bool Tuple::operator==(const Tuple &other) { return Eigen() == other.Eigen(); };
 bool Tuple::operator!=(const Tuple &other) { return *this == other; }
 
-Tuple Tuple::Reflect(const Tuple &other) {
+Tuple Tuple::Reflect(const Tuple &other) const {
   return Tuple(vec - other.Eigen() * 2 * vec.dot(other.Eigen()));
 }

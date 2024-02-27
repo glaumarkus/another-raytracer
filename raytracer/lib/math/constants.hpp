@@ -1,9 +1,10 @@
 #pragma once
 
 // #import <cmath>
+#include "vector2d.hpp"
 #include <math.h>
 #include <valarray>
-#include "vector2d.hpp"
+#include <iostream>
 
 constexpr double kEpsilon = 0.00001;
 
@@ -21,7 +22,10 @@ auto equalv = [](Tuple first, Tuple second) {
       std::abs(first.y() - second.y()) < kEpsilon &&
       std::abs(first.z() - second.z()) < kEpsilon) {
     result = true;
+  } else {
+    std::cout << first.x() << " " << second.x() << "\n";
+    std::cout << first.y() << " " << second.y() << "\n";
+    std::cout << first.z() << " " << second.z() << "\n";
   }
   return result;
 };
-

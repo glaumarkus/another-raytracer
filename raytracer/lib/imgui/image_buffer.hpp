@@ -21,6 +21,8 @@ public:
   void Initialize(int w, int h);
 
   void Update();
+
+  std::vector<unsigned char> GetPixel(int h, int w) const;
     
 
   int getWidth() const;
@@ -33,7 +35,7 @@ private:
   int height = 0;
   std::vector<unsigned char> pixels;
   std::vector<unsigned char> pixels_copy;
-  std::mutex mutexp;
+  mutable std::mutex mutexp;
   std::mutex mutexp2;
   ImageData() = default;
 };

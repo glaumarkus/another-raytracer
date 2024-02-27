@@ -1,5 +1,17 @@
 #include "world_parser.hpp"
+#include "imgui/image_buffer.hpp"
 #include "math/mat.hpp"
+
+void World::Render(LightingModel *model) const {
+  for (int h = 0; h < ImageData::getInstance().getHeight(); h++) {
+    for (int w = 0; w < ImageData::getInstance().getWidth(); w++) {
+      auto ray = camera_->RayForPixel(w, h);
+      auto color = ColorAt(ray, model);
+      ImageData::getInstance().SetPixel(h, w, color.ru(), color.gu(),
+                                        color.bu(), 255);
+    }
+  }
+}
 
 Intersections World::Intersect(Ray r) const {
   Intersections world_intersections;
@@ -12,12 +24,16 @@ Intersections World::Intersect(Ray r) const {
   return world_intersections;
 }
 
+void World::Add(std::shared_ptr<Camera> camera) { camera_ = camera; }
+
 void World::Add(std::shared_ptr<Light> light) {
   lights_.emplace_back(std::move(light));
 }
 void World::Add(std::shared_ptr<Object> object) {
   objects_.emplace_back(std::move(object));
 }
+
+const std::shared_ptr<Camera> &World::GetCamera() const { return camera_; }
 
 const std::vector<std::shared_ptr<Light>> &World::GetLights() const {
   return lights_;
@@ -33,6 +49,16 @@ Color World::ShadeHit(const PrepareComputations &comps,
   return model->GetLightingColor(comps.GetObject()->GetMaterial(), lights_,
                                  comps.GetPoint(), comps.GetEye(),
                                  comps.GetNormal());
+}
+
+Color World::ColorAt(Ray r, LightingModel *model) const {
+  auto intersections = Intersect(r);
+  auto hit_result = intersections.Hit();
+  if (hit_result) {
+    auto comps = PrepareComputations(hit_result.value(), r);
+    return ShadeHit(comps, model);
+  }
+  return Color(0);
 }
 
 Material WorldParser::GetMaterial(const std::string &tag) const {
@@ -73,11 +99,29 @@ std::unique_ptr<World> WorldParser::ParseWorldFile(std::string yaml_file) {
 void WorldParser::Add(const YAML::Node &node) {
   std::string type = node["add"].as<std::string>();
   if (type == "Pointcamera") {
-    auto fov_result = ParseDouble(node, "fov");
-    auto from_result = ParseVector(node, "from");
-    auto to_result = ParseVector(node, "to");
-    auto up_result = ParseVector(node, "up");
     // create camera
+    auto height_result = ParseDouble(node, "height");
+    auto width_result = ParseDouble(node, "width");
+    auto fov_result = ParseDouble(node, "fov");
+    auto from_result = ParsePoint(node, "from");
+    auto to_result = ParsePoint(node, "to");
+    auto up_result = ParseVector(node, "up");
+
+    if (height_result && width_result && fov_result) {
+      // set camera
+      auto camera = std::make_shared<Camera>(
+          width_result.value(), height_result.value(), fov_result.value());
+
+      // parse transformation
+      auto transformation = math_constants::m4_identity;
+
+      if (from_result && to_result && up_result) {
+        transformation = CalculateTransform(
+            from_result.value(), to_result.value(), up_result.value());
+      }
+      camera->SetTransform(transformation);
+      world_->Add(camera);
+    }
   } else if (type == "Pointlight") {
     auto position = Point();
     auto position_result = ParsePoint(node, "at");
@@ -126,16 +170,16 @@ void WorldParser::DefineMaterial(const YAML::Node &node) {
   }
 
   if (ambient) {
-    material.SetDiffuse(ambient.value());
+    material.SetAmbient(ambient.value());
   }
 
   if (specular) {
-    material.SetDiffuse(specular.value());
+    material.SetSpecular(specular.value());
   }
 
-  if (reflective) {
-    material.SetDiffuse(reflective.value());
-  }
+  //   if (reflective) {
+  //     material.SetReflective(reflective.value());
+  //   }
 
   materials_.emplace_back(ParsedContent<Material>{
       .t = material,

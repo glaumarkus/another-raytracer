@@ -11,35 +11,35 @@ public:
   Color() = default;
   Color(double v);
   Color(double r, double g, double b);
-  Color(double r, double g, double b, double a);
-  Color(Eigen::Vector4d &&v);
-  Color(const Eigen::Vector4d &v);
+  // Color(double r, double g, double b, double a);
+  Color(Eigen::Vector3d &&v);
+  Color(const Eigen::Vector3d &v);
   Color &operator+=(const Color &other);
   Color &operator-=(const Color &other);
   Color &operator*=(const Color &other);
   Color &operator*=(const double other);
 
   ColorStruct GetRenderColor();
-  const Eigen::Vector4d &Eigen() const;
+  const Eigen::Vector3d &Eigen() const;
 
   virtual double &r();
   virtual double &g();
   virtual double &b();
-  virtual double &a();
+  // virtual double &a();
   virtual const double &r() const;
   virtual const double &g() const;
   virtual const double &b() const;
-  virtual const double &a() const;
+  // virtual const double &a() const;
 
   virtual unsigned char ru() const;
   virtual unsigned char gu() const;
   virtual unsigned char bu() const;
-  virtual unsigned char au() const;
+  // virtual unsigned char au() const;
 
   virtual ~Color() = default;
 
 protected:
-  Eigen::Vector4d vec;
+  Eigen::Vector3d vec;
 };
 
 Color operator+(const Color &lhs, const Color &rhs);

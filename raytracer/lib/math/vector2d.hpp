@@ -29,12 +29,12 @@ public:
 
   virtual const Eigen::Vector4d &Eigen() const;
   virtual void Negate();
-  virtual double Magnitude();
+  virtual double Magnitude() const;
   virtual void Normalize();
-  Tuple Normalized();
-  virtual double Dot(const Tuple &other);
-  virtual Tuple Cross(const Tuple &other);
-  Tuple Reflect(const Tuple& other); 
+  Tuple Normalized() const;
+  virtual double Dot(const Tuple &other) const;
+  virtual Tuple Cross(const Tuple &other) const;
+  Tuple Reflect(const Tuple& other) const; 
 
   virtual ~Tuple() = default;
 

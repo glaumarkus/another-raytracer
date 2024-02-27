@@ -54,6 +54,17 @@ target_link_libraries(lighting PUBLIC
     raytracer_lib
 )
 
+# camera lib
+add_library(camera STATIC 
+    raytrace/camera.cpp
+)
+
+target_include_directories(camera PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(camera PUBLIC 
+    image_buffer
+    raytracer_lib
+)
+
 # raytrace chapter 05
 add_library(raytrace06 STATIC 
     raytrace/raytrace_chapter06.cpp
@@ -77,6 +88,7 @@ target_link_libraries(world_loader PUBLIC
     raytracer_lib
     lighting
     yaml-cpp
+    camera
 )
 
 # imgui
