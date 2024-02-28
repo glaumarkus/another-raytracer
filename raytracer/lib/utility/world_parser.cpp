@@ -1,7 +1,6 @@
 #include "world_parser.hpp"
 #include "math/mat.hpp"
 
-
 Material WorldParser::GetMaterial(const std::string &tag) const {
   Material mat;
   for (const auto &material : materials_) {
@@ -89,6 +88,20 @@ void WorldParser::Add(const YAML::Node &node) {
 
     auto sphere = std::make_shared<Sphere>(transformation, material);
     world_->Add(std::shared_ptr<Object>(std::move(sphere)));
+  } else if (type == "plane") {
+
+    auto material = Material();
+    auto material_result = ParseString(node, "material");
+    if (material_result)
+      material = GetMaterial(material_result.value());
+
+    auto transformation = math_constants::m4_identity;
+    auto transformation_result = ParseString(node, "transform");
+    if (transformation_result)
+      transformation = GetTransform(transformation_result.value());
+
+    auto plane = std::make_shared<Plane>(transformation, material);
+    world_->Add(std::shared_ptr<Object>(std::move(plane)));
   }
 }
 
