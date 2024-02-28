@@ -2,7 +2,7 @@
 
 #include "math/intersections.hpp"
 #include "math/material.hpp"
-#include "primitives/object.hpp"
+#include "primitives/primitives.hpp"
 #include "raytrace/camera.hpp"
 #include "raytrace/light.hpp"
 #include "raytrace/lighting_model.hpp"

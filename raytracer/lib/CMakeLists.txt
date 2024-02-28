@@ -11,7 +11,7 @@ target_include_directories(math_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # intersections 
 add_library(intersections STATIC
-    primitives/object.cpp
+    primitives/sphere.cpp
     math/intersections.cpp
     math/prepare_computations.cpp
 )

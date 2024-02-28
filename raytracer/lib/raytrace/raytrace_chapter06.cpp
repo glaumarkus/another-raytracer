@@ -3,7 +3,7 @@
 #include "imgui/color.hpp"
 #include "imgui/image_data.hpp"
 #include "math/material.hpp"
-#include "primitives/object.hpp"
+#include "primitives/primitives.hpp"
 #include "raytrace/light.hpp"
 #include "raytrace/lighting_model.hpp"
 

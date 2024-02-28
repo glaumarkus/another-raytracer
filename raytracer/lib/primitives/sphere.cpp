@@ -1,5 +1,7 @@
-#include "object.hpp"
+#include "sphere.hpp"
+
 #include "math/intersections.hpp"
+#include "object.hpp"
 
 bool Sphere::IsIntersectable() const { return true; }
 Intersections Sphere::GetIntersections(Ray r) const {
