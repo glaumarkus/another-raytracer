@@ -27,7 +27,3 @@ protected:
 };
 
 Matrix<4> CalculateTransform(Point from, Point to, Vector up);
-
-// class Pointcamera {
-//   Pointcamera()
-// };

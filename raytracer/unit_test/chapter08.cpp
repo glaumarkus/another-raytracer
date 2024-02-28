@@ -1,4 +1,4 @@
-#include "imgui/image_buffer.hpp"
+#include "imgui/image_data.hpp"
 #include "math/constants.hpp"
 #include "math/intersections.hpp"
 #include "math/mat.hpp"

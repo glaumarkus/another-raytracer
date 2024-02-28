@@ -1,44 +1,22 @@
 #pragma once
 
+#include "math/intersections.hpp"
 #include "math/material.hpp"
-#include "math/object.hpp"
+#include "primitives/object.hpp"
 #include "raytrace/camera.hpp"
 #include "raytrace/light.hpp"
-#include "math/intersections.hpp"
 #include "raytrace/lighting_model.hpp"
+#include "raytrace/world.hpp"
+#include <expected>
 #include <memory>
 #include <string>
 #include <vector>
 #include <yaml-cpp/node/parse.h>
 #include <yaml-cpp/yaml.h>
-#include <expected>
 
 template <typename T> struct ParsedContent {
   T t;
   std::string tag;
-};
-
-class World {
-public:
-  World() = default;
-
-  const std::shared_ptr<Camera>& GetCamera() const;
-  const std::vector<std::shared_ptr<Light>> &GetLights() const;
-  const std::vector<std::shared_ptr<Object>> &GetObjects() const;
-  // needs to be pointer as its abstract type
-  void Add(std::shared_ptr<Camera> camera);
-  void Add(std::shared_ptr<Light> light);
-  void Add(std::shared_ptr<Object> object);
-  Intersections Intersect(Ray r) const;
-  Color ShadeHit(const PrepareComputations& comps, LightingModel* model) const;
-  double IsShadow(Point p) const;
-  Color ColorAt(Ray r, LightingModel *model) const;
-  void Render(LightingModel *model) const;
-
-protected:
-  std::shared_ptr<Camera> camera_;
-  std::vector<std::shared_ptr<Light>> lights_;
-  std::vector<std::shared_ptr<Object>> objects_;
 };
 
 enum class Error {
@@ -46,7 +24,6 @@ enum class Error {
   kConversionError,
   kNotFoundError,
 };
-
 
 class WorldParser {
 public:
@@ -58,11 +35,14 @@ protected:
   void DefineMaterial(const YAML::Node &node);
   void DefineTransformation(const YAML::Node &node);
 
-  std::expected<double, Error> ParseDouble(const YAML::Node &it, std::string tag);
-  std::expected<Vector, Error> ParseVector(const YAML::Node &it, std::string tag);
+  std::expected<double, Error> ParseDouble(const YAML::Node &it,
+                                           std::string tag);
+  std::expected<Vector, Error> ParseVector(const YAML::Node &it,
+                                           std::string tag);
   std::expected<Point, Error> ParsePoint(const YAML::Node &it, std::string tag);
   std::expected<Color, Error> ParseColor(const YAML::Node &it, std::string tag);
-  std::expected<std::string, Error> ParseString(const YAML::Node &it, std::string tag);
+  std::expected<std::string, Error> ParseString(const YAML::Node &it,
+                                                std::string tag);
 
   Material GetMaterial(const std::string &tag) const;
   Matrix<4> GetTransform(const std::string &tag) const;
@@ -72,4 +52,3 @@ protected:
   std::vector<ParsedContent<Material>> materials_;
   std::vector<ParsedContent<Matrix<4>>> transforms_;
 };
-

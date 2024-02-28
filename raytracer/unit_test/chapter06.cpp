@@ -1,6 +1,6 @@
 #include "math/constants.hpp"
 #include "math/mat.hpp"
-#include "math/object.hpp"
+#include "primitives/object.hpp"
 #include "math/ray.hpp"
 #include "raytrace/light.hpp"
 #include "raytrace/lighting_model.hpp"

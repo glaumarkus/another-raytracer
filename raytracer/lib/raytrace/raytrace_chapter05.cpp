@@ -2,8 +2,8 @@
 
 
 #include "imgui/color.hpp"
-#include "imgui/image_buffer.hpp"
-#include "math/object.hpp"
+#include "imgui/image_data.hpp"
+#include "primitives/object.hpp"
 
 void Raytrace() {
   auto h = ImageData::getInstance().getHeight();

@@ -1,15 +1,23 @@
-# math
-add_library(raytracer_lib STATIC 
+# math_lib
+add_library(math_lib STATIC 
     math/constants.cpp
     math/vector2d.cpp
     math/mat.cpp
     math/ray.cpp
-    math/object.cpp
-    math/intersections.cpp
     math/material.cpp
     )
-target_link_libraries(raytracer_lib PRIVATE eigen)
-target_include_directories(raytracer_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(math_lib PRIVATE eigen)
+target_include_directories(math_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# intersections 
+add_library(intersections STATIC
+    primitives/object.cpp
+    math/intersections.cpp
+    math/prepare_computations.cpp
+)
+target_link_libraries(intersections PRIVATE math_lib)
+target_include_directories(intersections PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 
 # utility
 add_library(utility STATIC
@@ -20,7 +28,7 @@ target_include_directories(utility PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # image buffer
 add_library(image_buffer STATIC 
-    imgui/image_buffer.cpp
+    imgui/image_data.cpp
     imgui/color.cpp
 )
 
@@ -40,7 +48,7 @@ add_library(raytrace05 STATIC
 target_include_directories(raytrace05 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(raytrace05 PUBLIC 
     image_buffer
-    raytracer_lib
+    intersections
 )
 
 # raytrace lighting lib
@@ -52,7 +60,7 @@ add_library(lighting STATIC
 target_include_directories(lighting PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(lighting PUBLIC 
     image_buffer
-    raytracer_lib
+    intersections
 )
 
 # camera lib
@@ -63,7 +71,7 @@ add_library(camera STATIC
 target_include_directories(camera PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(camera PUBLIC 
     image_buffer
-    raytracer_lib
+    math_lib
 )
 
 # raytrace chapter 05
@@ -74,22 +82,31 @@ add_library(raytrace06 STATIC
 target_include_directories(raytrace06 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(raytrace06 PUBLIC 
     image_buffer
-    raytracer_lib
+    math_lib
     lighting
 )
 
 # world
+add_library(world STATIC
+    raytrace/world.cpp
+)
+target_include_directories(world PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(world PUBLIC 
+    image_buffer
+    lighting
+    camera
+    intersections
+)
+
+# world parser
 find_package(yaml-cpp REQUIRED)
 add_library(world_loader STATIC
     utility/world_parser.cpp
 )
 target_include_directories(world_loader PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(world_loader PUBLIC 
-    image_buffer
-    raytracer_lib
-    lighting
     yaml-cpp
-    camera
+    world
 )
 
 # imgui

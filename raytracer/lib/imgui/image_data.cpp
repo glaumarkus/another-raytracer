@@ -1,4 +1,4 @@
-#include "image_buffer.hpp"
+#include "image_data.hpp"
 
 GLuint ImageData::LoadTexture() {
   GLuint textureID;

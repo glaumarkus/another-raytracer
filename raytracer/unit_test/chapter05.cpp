@@ -1,5 +1,5 @@
 #include "math/constants.hpp"
-#include "math/object.hpp"
+#include "primitives/object.hpp"
 #include "math/ray.hpp"
 #include <gtest/gtest.h>
 

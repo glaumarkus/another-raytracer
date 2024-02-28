@@ -1,11 +1,13 @@
 #pragma once
 
-#include "intersections.hpp"
-#include "mat.hpp"
-#include "ray.hpp"
-#include "vector2d.hpp"
+#include "math/intersections.hpp"
+#include "math/mat.hpp"
+#include "math/ray.hpp"
+#include "math/vector2d.hpp"
 #include <vector>
-#include "material.hpp"
+#include "math/material.hpp"
+
+class Intersections;
 
 class Object {
 public:

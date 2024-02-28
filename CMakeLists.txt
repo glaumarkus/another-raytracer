@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.15.0)
 project(raytracer VERSION 0.1.0 LANGUAGES C CXX)
 
-# set(CUDA_SUPPORT OFF
-#         CACHE BOOL "ON to build with CUDA, OFF to do standard")
-
 set(CMAKE_CXX_STANDARD "23")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
 
@@ -49,11 +46,7 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-# copy scene files
-configure_file(scenes/parsing_example.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/parsing_example.yaml COPYONLY)
-configure_file(scenes/chapter07.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07.yaml COPYONLY)
-configure_file(scenes/chapter07_2.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_2.yaml COPYONLY)
-configure_file(scenes/chapter07_3.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_3.yaml COPYONLY)
-configure_file(scenes/chapter07_4.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_4.yaml COPYONLY)
-configure_file(scenes/chapter07_5.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_5.yaml COPYONLY)
-configure_file(scenes/chapter08.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter08.yaml COPYONLY)
+# copy unit test scene files
+file(COPY ${CMAKE_SOURCE_DIR}/scenes/unit_test
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/
+     FILES_MATCHING PATTERN "*.yaml")

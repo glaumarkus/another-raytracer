@@ -1,4 +1,4 @@
-#include "imgui/image_buffer.hpp"
+#include "imgui/image_data.hpp"
 #include "imgui/imgui_wrapper.hpp"
 
 int main() {

@@ -1,5 +1,5 @@
 #include "imgui_wrapper.hpp"
-#include "image_buffer.hpp"
+#include "image_data.hpp"
 #include "raytrace/raytrace.hpp"
 
 UI *UI::instance_ = nullptr;

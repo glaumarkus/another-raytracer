@@ -1,9 +1,9 @@
 #include "raytrace.hpp"
 
 #include "imgui/color.hpp"
-#include "imgui/image_buffer.hpp"
+#include "imgui/image_data.hpp"
 #include "math/material.hpp"
-#include "math/object.hpp"
+#include "primitives/object.hpp"
 #include "raytrace/light.hpp"
 #include "raytrace/lighting_model.hpp"
 
