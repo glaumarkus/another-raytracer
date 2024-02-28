@@ -1,5 +1,6 @@
 # math
 add_library(raytracer_lib STATIC 
+    math/constants.cpp
     math/vector2d.cpp
     math/mat.cpp
     math/ray.cpp

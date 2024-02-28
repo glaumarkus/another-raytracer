@@ -31,6 +31,7 @@ public:
   void Add(std::shared_ptr<Object> object);
   Intersections Intersect(Ray r) const;
   Color ShadeHit(const PrepareComputations& comps, LightingModel* model) const;
+  double IsShadow(Point p) const;
   Color ColorAt(Ray r, LightingModel *model) const;
   void Render(LightingModel *model) const;
 

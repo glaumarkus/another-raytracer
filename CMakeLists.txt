@@ -56,3 +56,4 @@ configure_file(scenes/chapter07_2.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/uni
 configure_file(scenes/chapter07_3.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_3.yaml COPYONLY)
 configure_file(scenes/chapter07_4.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_4.yaml COPYONLY)
 configure_file(scenes/chapter07_5.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter07_5.yaml COPYONLY)
+configure_file(scenes/chapter08.yaml ${CMAKE_CURRENT_BINARY_DIR}/raytracer/unit_test/chapter08.yaml COPYONLY)

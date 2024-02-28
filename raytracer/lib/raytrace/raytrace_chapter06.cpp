@@ -43,7 +43,7 @@ void Raytrace() {
         auto normal =
             SphereNormal(reinterpret_cast<const Sphere &>(*hit.obj), point);
         auto color = phong.GetLightingColor(hit.obj->GetMaterial(), lights,
-                                            point, r.GetDirection(), normal);
+                                            point, r.GetDirection(), normal, 0.0);
 
         ImageData::getInstance().SetPixel(hh, ww, color.ru(), color.gu(),
                                           color.bu(), 255);

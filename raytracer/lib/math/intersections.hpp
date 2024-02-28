@@ -1,8 +1,8 @@
 #pragma once
 
 #include "vector2d.hpp"
-#include <vector>
 #include <expected>
+#include <vector>
 
 class Object;
 class Ray;
@@ -12,10 +12,9 @@ struct IntersectionData {
   const Object *obj{nullptr};
 };
 
-enum class IntersectionError{
+enum class IntersectionError {
   kNoIntersections,
 };
-
 
 class Intersections {
 public:
@@ -37,12 +36,14 @@ public:
   Vector GetEye() const;
   Vector GetNormal() const;
   Point GetPoint() const;
+  Point GetOverPoint() const;
   const Object *GetObject() const;
   bool IsInside() const;
 
 protected:
   const IntersectionData intersection_;
   Point intersection_point_;
+  Point intersection_over_point_;
   Vector eye_vector_;
   Vector normal_vector_;
   bool is_inside_;

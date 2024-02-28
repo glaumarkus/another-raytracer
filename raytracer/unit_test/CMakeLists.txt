@@ -74,3 +74,11 @@ target_link_libraries(chapter07 gtest gtest_main raytracer_lib image_buffer ligh
 # Register the executable as a test
 add_test(NAME chapter07 COMMAND chapter07)
 
+# Define test executable
+add_executable(chapter08 chapter08.cpp) 
+
+# Link the test executable with GoogleTest and your libraries
+target_link_libraries(chapter08 gtest gtest_main raytracer_lib image_buffer lighting utility world_loader camera)
+
+# Register the executable as a test
+add_test(NAME chapter08 COMMAND chapter08)

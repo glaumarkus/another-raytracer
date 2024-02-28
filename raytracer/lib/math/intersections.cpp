@@ -1,4 +1,5 @@
 #include "intersections.hpp"
+#include "math/constants.hpp"
 #include "object.hpp"
 #include "ray.hpp"
 
@@ -50,6 +51,7 @@ PrepareComputations::PrepareComputations(IntersectionData intersection_data,
     is_inside_ = true;
     normal_vector_ *= -1;
   }
+  intersection_over_point_ = intersection_point_ + normal_vector_ * kEpsilon;
 }
 
 Vector PrepareComputations::GetEye() const { return eye_vector_; }
@@ -59,3 +61,6 @@ const Object *PrepareComputations::GetObject() const {
   return intersection_.obj;
 }
 bool PrepareComputations::IsInside() const { return is_inside_; }
+Point PrepareComputations::GetOverPoint() const {
+  return intersection_over_point_;
+}

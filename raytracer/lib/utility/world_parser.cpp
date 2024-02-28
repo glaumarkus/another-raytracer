@@ -43,12 +43,31 @@ const std::vector<std::shared_ptr<Object>> &World::GetObjects() const {
   return objects_;
 }
 
+double World::IsShadow(Point p) const {
+  double shadow = 0.0;
+  for (const auto &light : lights_) {
+    auto v = light->GetPoint() - p;
+    auto distance = v.Magnitude();
+    auto direction = v.Normalized();
+    auto ray = Ray(p, direction);
+    auto intersections = Intersect(ray);
+    if (intersections.Hit() && intersections.Hit().value().t < distance) {
+      shadow += 1.0;
+    }
+  }
+  return shadow / lights_.size();
+}
+
 Color World::ShadeHit(const PrepareComputations &comps,
                       LightingModel *model) const {
+  double in_shadow = 0.0;
+  if (model->CalculateShadow()) {
+    in_shadow = IsShadow(comps.GetPoint());
+  }
   // convert light ptr
   return model->GetLightingColor(comps.GetObject()->GetMaterial(), lights_,
                                  comps.GetPoint(), comps.GetEye(),
-                                 comps.GetNormal());
+                                 comps.GetNormal(), in_shadow);
 }
 
 Color World::ColorAt(Ray r, LightingModel *model) const {
