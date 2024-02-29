@@ -1,27 +1,34 @@
 #pragma once
 
 #include "imgui/color.hpp"
+#include "math/vector2d.hpp"
+#include <memory>
 
+class Pattern;
 class Material {
 public:
   Material() = default;
   Material(Color color, double ambient, double diffuse, double specular,
            double shininess);
   Color GetColor() const;
+  Color GetColor(const Point& p) const;
   double Ambient() const;
   double Diffuse() const;
   double Specular() const;
   double Shininess() const;
+  bool HasPattern() const;
+  const std::shared_ptr<Pattern> GetPattern() const;
   void SetColor(Color color);
   void SetAmbient(double ambient);
   void SetDiffuse(double diffuse);
   void SetSpecular(double specular);
   void SetShininess(double shininess);
-
+  void SetPattern(std::shared_ptr<Pattern> p);
 protected:
   Color color_{1, 1, 1};
   double ambient_{0.1};
   double diffuse_{0.9};
   double specular_{0.9};
   double shininess_{200};
+  std::shared_ptr<Pattern> pattern_{nullptr};
 };

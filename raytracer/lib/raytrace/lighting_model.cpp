@@ -6,10 +6,12 @@ Color PhongReflectionModel::GetLightingColor(
     const Point &point, const Vector &eye_vector, const Vector &normal_vector,
     double in_shadow) const {
   Color result(0, 0, 0);
+  auto material_color =
+      material.HasPattern() ? material.GetColor() : material.GetColor(point);
   for (const auto light : lights) {
     Color diffuse_color = Colors::black;
     Color specular_color = Colors::black;
-    auto effective_color = material.GetColor() * light->GetIntensity();
+    auto effective_color = material_color * light->GetIntensity();
     auto light_vector = (light->GetPoint() - point).Normalized();
     auto ambient_color = effective_color * material.Ambient();
     auto light_dot_normal = light_vector.Dot(normal_vector);
@@ -33,10 +35,12 @@ Color PhongReflectionShadowModel::GetLightingColor(
     const Point &point, const Vector &eye_vector, const Vector &normal_vector,
     double in_shadow) const {
   Color result(0, 0, 0);
+  auto material_color =
+      material.HasPattern() ? material.GetColor() : material.GetColor(point);
   for (const auto light : lights) {
     Color diffuse_color = Colors::black;
     Color specular_color = Colors::black;
-    auto effective_color = material.GetColor() * light->GetIntensity();
+    auto effective_color = material_color * light->GetIntensity();
     auto ambient_color = effective_color * material.Ambient();
     auto light_vector = (light->GetPoint() - point).Normalized();
     auto light_dot_normal = light_vector.Dot(normal_vector);

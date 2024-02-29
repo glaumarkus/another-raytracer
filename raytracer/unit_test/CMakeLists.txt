@@ -91,3 +91,12 @@ target_link_libraries(chapter09 gtest gtest_main math_lib image_buffer lighting 
 
 # Register the executable as a test
 add_test(NAME chapter09 COMMAND chapter09)
+
+# Define test executable
+add_executable(chapter10 chapter10.cpp) 
+
+# Link the test executable with GoogleTest and your libraries
+target_link_libraries(chapter10 gtest gtest_main math_lib image_buffer lighting utility world_loader camera)
+
+# Register the executable as a test
+add_test(NAME chapter10 COMMAND chapter10)

@@ -5,12 +5,15 @@ add_library(math_lib STATIC
     math/mat.cpp
     math/ray.cpp
     math/material.cpp
+    math/pattern.cpp
     )
 target_link_libraries(math_lib PRIVATE eigen)
 target_include_directories(math_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # intersections 
 add_library(intersections STATIC
+    math/material.cpp
+    math/pattern.cpp
     primitives/sphere.cpp
     primitives/plane.cpp
     math/intersections.cpp
