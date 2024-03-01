@@ -56,7 +56,7 @@ TEST(chapter07, prepare_computations) {
   auto hit = intersections.Hit();
   if (!hit)
     FAIL();
-  PrepareComputations p(hit.value(), r);
+  PrepareComputations p(intersections, r);
   EXPECT_EQ(p.GetObject(), &s);
   EXPECT_EQ(p.GetPoint(), Point(0, 0, -1));
   EXPECT_FALSE(p.IsInside());
@@ -71,7 +71,7 @@ TEST(chapter07, prepare_computations_inside) {
   auto hit = intersections.Hit();
   if (!hit)
     FAIL();
-  PrepareComputations p(hit.value(), r);
+  PrepareComputations p(intersections, r);
   EXPECT_EQ(p.GetObject(), &s);
   EXPECT_TRUE(equalv(p.GetPoint(), Point(0, 0, 1)));
   EXPECT_TRUE(p.IsInside());
@@ -83,12 +83,10 @@ TEST(chapter07, shade_hit_1) {
   WorldParser parser;
   auto world = parser.ParseWorldFile("chapter07.yaml");
   auto r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-  IntersectionData id{
-      .t = 4,
-      .obj = world->GetObjects()[0].get(),
-  };
+  Intersections i;
+  i.Add(4, world->GetObjects()[0].get());
   PhongReflectionModel model;
-  auto comps = PrepareComputations(id, r);
+  auto comps = PrepareComputations(i, r);
   auto color = world->ShadeHit(comps, &model);
   EXPECT_TRUE(equalc(color, Color(0.38066, 0.47583, 0.2855)));
 }
@@ -97,12 +95,10 @@ TEST(chapter07, shade_hit_2) {
   WorldParser parser;
   auto world = parser.ParseWorldFile("chapter07_2.yaml");
   auto r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
-  IntersectionData id{
-      .t = 0.5,
-      .obj = world->GetObjects()[1].get(),
-  };
+  Intersections i;
+  i.Add(0.5, world->GetObjects()[1].get());
   PhongReflectionModel model;
-  auto comps = PrepareComputations(id, r);
+  auto comps = PrepareComputations(i, r);
   auto color = world->ShadeHit(comps, &model);
   EXPECT_TRUE(equalc(color, Color(0.90498)));
 }

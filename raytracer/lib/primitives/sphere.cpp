@@ -47,7 +47,8 @@ Vector SphereNormal(const Sphere &s, const Point &p) {
 }
 
 void Sphere::SetMaterial(const Material m) { material_ = m; }
-Material Sphere::GetMaterial() const { return material_; }
+const Material &Sphere::GetMaterial() const { return material_; }
+Material &Sphere::GetMaterial() { return material_; }
 
 Sphere::Sphere(Matrix<4> transformation) : mat_(transformation) {}
 Sphere::Sphere(Material mat) : material_(mat) {}

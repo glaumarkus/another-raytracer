@@ -16,6 +16,7 @@ public:
   virtual void Transform(const Matrix<4> &transformation) = 0;
   virtual const Matrix<4> &GetTransformation() const = 0;
   virtual void SetMaterial(const Material m) = 0;
-  virtual Material GetMaterial() const = 0;
+  virtual const Material &GetMaterial() const = 0;
+  virtual Material &GetMaterial() = 0;
   virtual Vector GetNormalAtPoint(Point p) const = 0;
 };

@@ -114,6 +114,8 @@ void WorldParser::DefineMaterial(const YAML::Node &node) {
   auto ambient = ParseDouble(value, "ambient");
   auto specular = ParseDouble(value, "specular");
   auto reflective = ParseDouble(value, "reflective");
+  auto refractive_idx = ParseDouble(value, "refractive");
+  auto transparent = ParseDouble(value, "transparent");
 
   if (color) {
     material.SetColor(color.value());
@@ -131,9 +133,17 @@ void WorldParser::DefineMaterial(const YAML::Node &node) {
     material.SetSpecular(specular.value());
   }
 
-  //   if (reflective) {
-  //     material.SetReflective(reflective.value());
-  //   }
+  if (reflective) {
+    material.SetReflective(reflective.value());
+  }
+
+  if (refractive_idx) {
+    material.SetRefractiveIdx(refractive_idx.value());
+  }
+
+  if (transparent) {
+    material.SetTransparent(transparent.value());
+  }
 
   materials_.emplace_back(ParsedContent<Material>{
       .t = material,

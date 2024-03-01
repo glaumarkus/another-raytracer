@@ -63,12 +63,10 @@ TEST(chapter08, shade_hit_1) {
   auto world = parser.ParseWorldFile("chapter08.yaml");
   auto r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   auto intersections = world->Intersect(r);
-  IntersectionData id{
-      .t = 14,
-      .obj = world->GetObjects()[1].get(),
-  };
+  Intersections i;
+  i.Add(14, world->GetObjects()[1].get());
   PhongReflectionShadowModel model;
-  auto comps = PrepareComputations(id, r);
+  auto comps = PrepareComputations(i, r);
   auto color = world->ShadeHit(comps, &model);
   EXPECT_TRUE(equalc(color, Color(0.1, 0.1, 0.1)));
 }
@@ -78,11 +76,8 @@ TEST(chapter08, over_point) {
   auto r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere s;
   s.Transform(math_constants::TranslationMatrix(0, 0, 1));
-  IntersectionData id{
-      .t = 5,
-      .obj = &s,
-  };
-
-  auto comps = PrepareComputations(id, r);
+  Intersections i;
+  i.Add(6, &s);
+  auto comps = PrepareComputations(i, r);
   EXPECT_TRUE(comps.GetOverPoint().z() < comps.GetPoint().z());
 }

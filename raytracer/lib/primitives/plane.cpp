@@ -28,7 +28,8 @@ Intersections PlaneIntersection(const Plane &pl, Ray r) {
 Vector PlaneNormal(const Plane &pl, const Point &p) { return Vector(0, 1, 0); }
 
 void Plane::SetMaterial(const Material m) { material_ = m; }
-Material Plane::GetMaterial() const { return material_; }
+const Material &Plane::GetMaterial() const { return material_; }
+Material &Plane::GetMaterial() { return material_; }
 
 Plane::Plane(Matrix<4> transformation) : mat_(transformation) {}
 Plane::Plane(Material mat) : material_(mat) {}

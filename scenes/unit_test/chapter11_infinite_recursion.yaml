@@ -1,0 +1,25 @@
+# lights 
+- add: Pointlight
+  at: [0, 0, 0]
+  intensity: [1, 1, 1]
+
+# materials
+- material: reflective-material
+  value:
+    reflective: 1
+
+# transformation mats
+- transform: transformation1
+  value:
+  - [ translate, 0, 1, 0]
+- transform: transformation2
+  value:
+  - [ translate, 0, -1, 0]
+
+# shapes
+- add: plane
+  transform: transformation1
+  material: reflective-material
+- add: plane
+  transform: transformation2
+  material: reflective-material

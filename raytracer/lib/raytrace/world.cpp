@@ -1,6 +1,7 @@
 #include "world.hpp"
-#include "primitives/object.hpp"
 #include "imgui/image_data.hpp"
+#include "math/constants.hpp"
+#include "primitives/object.hpp"
 
 void World::Render(LightingModel *model) const {
   for (int h = 0; h < ImageData::getInstance().getHeight(); h++) {
@@ -11,6 +12,26 @@ void World::Render(LightingModel *model) const {
                                         color.bu(), 255);
     }
   }
+}
+
+void World::SetReflectionIterations(int iterations) {
+  iterations_ = iterations;
+}
+
+Color World::ReflectedColor(const PrepareComputations &comps,
+                            LightingModel *model, int iterations) const {
+  if (!model->CalculateReflection()) {
+    return Color(0);
+  }
+  if (iterations == iterations_) {
+    return Color(0);
+  }
+  if (equal(comps.GetObject()->GetMaterial().Reflective(), 0.0)) {
+    return Color(0);
+  }
+  Ray reflect_ray(comps.GetOverPoint(), comps.GetReflect());
+  auto color = ColorAt(reflect_ray, model, iterations + 1);
+  return color * comps.GetObject()->GetMaterial().Reflective();
 }
 
 Intersections World::Intersect(Ray r) const {
@@ -43,6 +64,12 @@ const std::vector<std::shared_ptr<Object>> &World::GetObjects() const {
   return objects_;
 }
 
+std::shared_ptr<Camera> &World::GetCamera() { return camera_; }
+
+std::vector<std::shared_ptr<Light>> &World::GetLights() { return lights_; }
+
+std::vector<std::shared_ptr<Object>> &World::GetObjects() { return objects_; }
+
 double World::IsShadow(Point p) const {
   double shadow = 0.0;
   for (const auto &light : lights_) {
@@ -58,24 +85,29 @@ double World::IsShadow(Point p) const {
   return shadow / lights_.size();
 }
 
-Color World::ShadeHit(const PrepareComputations &comps,
-                      LightingModel *model) const {
+Color World::ShadeHit(const PrepareComputations &comps, LightingModel *model,
+                      int iterations) const {
   double in_shadow = 0.0;
   if (model->CalculateShadow()) {
-    in_shadow = IsShadow(comps.GetPoint());
+    in_shadow = IsShadow(comps.GetOverPoint());
   }
   // convert light ptr
-  return model->GetLightingColor(comps.GetObject()->GetMaterial(), lights_,
-                                 comps.GetPoint(), comps.GetEye(),
-                                 comps.GetNormal(), in_shadow);
+  auto surface_color = model->GetLightingColor(
+      comps.GetObject()->GetMaterial(), lights_, comps.GetPoint(),
+      comps.GetEye(), comps.GetNormal(), in_shadow);
+  auto reflected_color = ReflectedColor(comps, model, iterations);
+
+  return surface_color + reflected_color;
 }
 
-Color World::ColorAt(Ray r, LightingModel *model) const {
+Color World::ColorAt(Ray r, LightingModel *model, int iterations) const {
   auto intersections = Intersect(r);
   auto hit_result = intersections.Hit();
   if (hit_result) {
-    auto comps = PrepareComputations(hit_result.value(), r);
-    return ShadeHit(comps, model);
+    auto comps = PrepareComputations(intersections, r);
+    return ShadeHit(comps, model, iterations);
   }
   return Color(0);
 }
+
+int World::GetReflectionIterations() const { return iterations_; }

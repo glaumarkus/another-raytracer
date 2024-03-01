@@ -13,7 +13,8 @@ public:
   void Transform(const Matrix<4> &transformation) override;
   const Matrix<4> &GetTransformation() const override;
   void SetMaterial(const Material m) override;
-  Material GetMaterial() const override;
+  const Material &GetMaterial() const override;
+  Material &GetMaterial() override;
   Vector GetNormalAtPoint(Point p) const override;
 
 protected:

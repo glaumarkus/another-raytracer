@@ -16,6 +16,7 @@ add_library(intersections STATIC
     math/pattern.cpp
     primitives/sphere.cpp
     primitives/plane.cpp
+    primitives/primitives.cpp
     math/intersections.cpp
     math/prepare_computations.cpp
 )

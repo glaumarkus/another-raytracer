@@ -28,5 +28,5 @@ TEST(misc, load_world_file)
     auto world = parser.ParseWorldFile("parsing_example.yaml");
     EXPECT_NE(world, nullptr);
     EXPECT_EQ(world->GetLights().size(), 1);
-    EXPECT_EQ(world->GetObjects().size(), 1);
+    EXPECT_EQ(world->GetObjects().size(), 2);
 }
